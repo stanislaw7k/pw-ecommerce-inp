@@ -5,6 +5,7 @@ import SearchResultsPage from '../ui/search-results.page';
 import ProductDetailsPage from '../ui/product-details.page';
 import AddedToCartModal from '../ui/added-to-cart.modal';
 import CartPage from '../ui/cart.page';
+import CheckoutPage from '../ui/checkout.page';
 
 const testData = {
   product: {
@@ -21,6 +22,12 @@ const testData = {
     country: 'France',
     state: 'Alaska',
   },
+  shippingMethod: 'Click and collect',
+  paymentMethods: [
+    'Pay by bank wire',
+    'Pay by Cash on Delivery',
+    'Pay by Check',
+  ],
 };
 
 test('User can search for a product and purchase it', async ({ page }) => {
@@ -32,6 +39,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const productDetailsPage = new ProductDetailsPage(page);
   const addedToCartModal = new AddedToCartModal(page);
   const cartPage = new CartPage(page);
+  const checkoutPage = new CheckoutPage(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -69,60 +77,48 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Fill in all required information fields.', async () => {
-    await iFrame
-      .locator('#field-firstname')
-      .fill(testData.personalInfo.firstName);
-    await iFrame
-      .locator('#field-lastname')
-      .fill(testData.personalInfo.lastName);
-    await iFrame
-      .locator('#checkout-guest-form #field-email')
-      .fill(testData.personalInfo.email);
-    await iFrame
-      .getByLabel('I agree to the terms and conditions and the privacy policy')
-      .check();
-    await iFrame.getByLabel('Customer data privacy').check();
-    await iFrame.getByRole('button', { name: 'Continue' }).click();
+    await checkoutPage.personalInfoStep.fillFirstName(
+      testData.personalInfo.firstName
+    );
+    await checkoutPage.personalInfoStep.fillLastName(
+      testData.personalInfo.lastName
+    );
+    await checkoutPage.personalInfoStep.fillEmail(testData.personalInfo.email);
+    await checkoutPage.personalInfoStep.checkRequiredConsent();
+    await checkoutPage.personalInfoStep.clickContinue();
 
-    await iFrame
-      .locator('#field-address1')
-      .fill(testData.personalInfo.address1);
-    await iFrame
-      .locator('#field-postcode')
-      .fill(testData.personalInfo.postalCode);
-    await iFrame.locator('#field-city').fill(testData.personalInfo.city);
-    await iFrame
-      .locator('#field-id_country')
-      .selectOption(testData.personalInfo.country);
-    await iFrame
-      .locator('#field-id_state')
-      .selectOption(testData.personalInfo.state);
-
-    await iFrame.getByRole('button', { name: 'Continue' }).click();
-
-    await expect(iFrame.locator('.delivery-options')).toBeVisible();
+    await checkoutPage.addressStep.fillAddress1(testData.personalInfo.address1);
+    await checkoutPage.addressStep.fillPostalCode(
+      testData.personalInfo.postalCode
+    );
+    await checkoutPage.addressStep.fillCity(testData.personalInfo.city);
+    await checkoutPage.addressStep.selectCountry(testData.personalInfo.country);
+    await checkoutPage.addressStep.selectState(testData.personalInfo.state);
+    await checkoutPage.addressStep.clickContinue();
   });
 
   await test.step('Navigate to the payment options page.', async () => {
-    await iFrame.getByRole('button', { name: 'Continue' }).click();
+    await checkoutPage.shippingStep.assertIsVisible();
+    await checkoutPage.shippingStep.selectShippingMethod(
+      testData.shippingMethod
+    );
+    await checkoutPage.shippingStep.clickContinue();
   });
 
   await test.step('Verify the availability of all listed payment methods.', async () => {
-    const paymentOptions = [
-      'Pay by bank wire',
-      'Pay by Cash on Delivery',
-      'Pay by Check',
-    ];
+    await checkoutPage.paymentStep.assertIsVisible();
 
-    paymentOptions.forEach(async (option) => {
-      await expect(iFrame.locator('div.payment-options')).toContainText(option);
-    });
+    await checkoutPage.paymentStep.assertPaymentMethods(
+      testData.paymentMethods
+    );
   });
 
   await test.step('Complete the purchase process.', async () => {
-    await iFrame.getByLabel('Pay by Cash on Delivery').check();
-    await iFrame.getByLabel('I agree to the terms of service').check();
-    await iFrame.getByRole('button', { name: 'Place Order' }).click();
+    await checkoutPage.paymentStep.selectPaymentOption(
+      testData.paymentMethods[1]
+    );
+    await checkoutPage.paymentStep.checkTermsCheckbox();
+    await checkoutPage.paymentStep.clickPlaceOrder();
   });
 
   await test.step('Ensure the order confirmation page loads successfully and displays the correct order details', async () => {
