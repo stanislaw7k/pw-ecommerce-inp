@@ -38,6 +38,10 @@ npx playwright install
 
 Choose the stack you are familiar with - preference would be JS/TS Playwright/WebdriverIO
 
+### 📝 Comments
+
+- I chose Playwright with TypeScript.
+
 ## Choose a demo app
 
 List of E-Commerce Demo Websites:
@@ -47,18 +51,22 @@ List of E-Commerce Demo Websites:
 - https://www.demoblaze.com
 - any other e-commerce website suitable for the task
 
+### 📝 Comments
+
+- Looks like _saucedemo.com_ and _demoblaze.com_ doesn't have search functionality so I chose **prestashop.com**
+
 ## Primary task
 
 Task list (primary):
 
-- Launch the preferred browser and Navigate to the specified website URL
-- Enter the product name into the search field and Execute the search operation. Validate that the search
-  results display the correct product
-- Add the product to the shopping cart. Confirm that the cart correctly displays the added product
-- Proceed to the checkout page. Fill in all required information fields
-- Navigate to the payment options page. Verify the availability of all listed payment methods
-- Complete the purchase process. Ensure the order confirmation page loads successfully and displays the
-  correct order details
+1. Launch the preferred browser and Navigate to the specified website URL
+2. Enter the product name into the search field and Execute the search operation. Validate that the search
+   results display the correct product
+3. Add the product to the shopping cart. Confirm that the cart correctly displays the added product
+4. Proceed to the checkout page. Fill in all required information fields
+5. Navigate to the payment options page. Verify the availability of all listed payment methods
+6. Complete the purchase process. Ensure the order confirmation page loads successfully and displays the
+   correct order details
 
 ## Additional tasks
 
