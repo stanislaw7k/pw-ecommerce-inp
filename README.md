@@ -140,3 +140,9 @@ Task list (choose how many you want - write in the README why you have chosen sp
 - The main test was flaky one the _"Add the product to the shopping cart."_ step.
 - I added waiting for API response which fixed the issue.
 - You can run `npx playwright test main-test.spec.ts --repeat-each=50` to repeat the main test 50 times on each browser. It will pass everytime with this fix.
+
+## iframe
+
+- The Prestashop Demo App is run in an iframe.
+- The source website is protected and can not be accessed without an iframe.
+- I created `/ui/base.page.ts` to store iframe locator and use it in every other page class.
