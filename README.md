@@ -2,6 +2,34 @@
 
 # Setup
 
+### Install Node.js
+
+Go to the [Node.js website](https://nodejs.org/en/download/package-manager/current) if you haven't installed it yet.
+
+### Clone this repository
+
+```
+git clone git@github.com:stanislaw7k/pw-ecommerce-inp.git
+```
+
+### Navigate to the project directory
+
+```
+cd pw-ecommerce-inp
+```
+
+### Install dependencies
+
+```
+npm install
+```
+
+### Install Playwright browsers
+
+```
+npx playwright install
+```
+
 # Run
 
 # Task description and comments
