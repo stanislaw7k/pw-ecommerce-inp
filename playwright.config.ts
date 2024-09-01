@@ -10,6 +10,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://demo.prestashop.com',
     trace: 'on-first-retry',
+    screenshot: 'on',
   },
 
   projects: [
