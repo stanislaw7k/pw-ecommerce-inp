@@ -59,7 +59,13 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Add the product to the shopping cart.', async () => {
+    const responsePromise = page.waitForResponse(
+      '**/module/productcomments/ListComments*'
+    );
+
     await searchResultsPage.clickOnProduct(testData.product.name);
+
+    const response = await responsePromise;
 
     await productDetailsPage.clickAddToCartButton();
   });

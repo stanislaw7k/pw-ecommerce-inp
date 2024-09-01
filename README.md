@@ -5,6 +5,7 @@ Hi! Here's my solution to the ecommerce task. Below you'll find info on:
 - How to setup this repo.
 - How to run tests.
 - Task description with my comments.
+- Additional comments.
 
 # Setup
 
@@ -131,3 +132,11 @@ Task list (choose how many you want - write in the README why you have chosen sp
 
 - Create a README file and write instructions for launching your tests
 - Share the automation project link through source code repositories like GitHub (keep commit history)
+
+# Additional comments
+
+## Flakiness
+
+- The main test was flaky one the _"Add the product to the shopping cart."_ step.
+- I added waiting for API response which fixed the issue.
+- You can run `npx playwright test main-test.spec.ts --repeat-each=50` to repeat the main test 50 times on each browser. It will pass everytime with this fix.

@@ -13,8 +13,6 @@ export default class HomePage extends BasePage {
   async assertIsVisible() {
     await expect(
       this.iFrame.locator('h2', { hasText: 'Popular Products' })
-    ).toBeVisible({
-      timeout: 15 * 1000,
-    });
+    ).toBeVisible();
   }
 }
