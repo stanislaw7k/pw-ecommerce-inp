@@ -32,6 +32,26 @@ npx playwright install
 
 # Run
 
+You can use npm scripts to run tests.
+
+### Run tests on Chromium browser
+
+```
+npm run on-chrome
+```
+
+### Run tests on Firefox browser
+
+```
+npm run on-firefox
+```
+
+### Run tests on all browsers
+
+```
+npm run on-all
+```
+
 # Task description and comments
 
 ## Choose the stack

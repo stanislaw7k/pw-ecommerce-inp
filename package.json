@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "on-chrome": "npx playwright test --project=chromium",
+    "on-firefox": "npx playwright test --project=firefox",
+    "on-all": "npx playwright test"
+  },
   "keywords": [],
-  "author": "",
+  "author": "stanislaw7k",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.46.1",
