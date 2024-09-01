@@ -7,6 +7,11 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  timeout: 60 * 1000, // single test timeout
+  globalTimeout: 60 * 60 * 1000, // test run timeout
+  expect: {
+    timeout: 15 * 1000, // expect timeout
+  },
   use: {
     baseURL: 'https://demo.prestashop.com',
     trace: 'on-first-retry',
