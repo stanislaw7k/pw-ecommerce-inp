@@ -31,10 +31,16 @@ const testData = {
   ],
 };
 
-test('User can search for a product and purchase it', async ({ page }) => {
-  const iFrame = page.frameLocator('#framelive');
-
+test.beforeEach(async ({ page }) => {
   const homePage = new HomePage(page);
+
+  await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
+    await homePage.goto();
+    await homePage.assertIsVisible();
+  });
+});
+
+test('User can search for a product and purchase it', async ({ page }) => {
   const navbar = new NavbarSection(page);
   const searchResultsPage = new SearchResultsPage(page);
   const productDetailsPage = new ProductDetailsPage(page);
@@ -42,11 +48,6 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const cartPage = new CartPage(page);
   const checkoutPage = new CheckoutPage(page);
   const orderConfirmationPage = new OrderConfirmationPage(page);
-
-  await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
-    await homePage.goto();
-    await homePage.assertIsVisible();
-  });
 
   await test.step('Enter the product name into the search field and Execute the search operation.', async () => {
     await navbar.searchFor(testData.product.name);
