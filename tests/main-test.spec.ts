@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import HomePage from '../ui/home.page';
 
 const product = {
   name: 'Hummingbird printed sweater',
@@ -19,11 +20,11 @@ const personalInfo = {
 test('User can search for a product and purchase it', async ({ page }) => {
   const iFrame = page.frameLocator('#framelive');
 
+  const homePage = new HomePage(page);
+
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
-    await page.goto('');
-    await expect(iFrame.locator('div#search_widget')).toBeVisible({
-      timeout: 30 * 1000,
-    });
+    await homePage.goto();
+    await homePage.assertIsVisible();
   });
 
   await test.step('Enter the product name into the search field and Execute the search operation.', async () => {
