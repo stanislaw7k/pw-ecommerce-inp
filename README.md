@@ -58,7 +58,7 @@ npm run on-all
 
 Choose the stack you are familiar with - preference would be JS/TS Playwright/WebdriverIO
 
-### 📝 Comments
+#### 📝 Comments
 
 - I chose Playwright with TypeScript.
 
@@ -71,7 +71,7 @@ List of E-Commerce Demo Websites:
 - https://www.demoblaze.com
 - any other e-commerce website suitable for the task
 
-### 📝 Comments
+#### 📝 Comments
 
 - Looks like _saucedemo.com_ and _demoblaze.com_ doesn't have search functionality so I chose **prestashop.com**
 
@@ -92,17 +92,34 @@ Task list (primary):
 
 Task list (choose how many you want - write in the README why you have chosen specific points):
 
-- Framework and Configuration Setup: Implement the Page Object Model, and manage test settings via a
-  configuration file for base URLs, wait timeouts, browser drivers, and instances.
-- Custom Functionality and Browser Configuration: Develop custom functions for assertions and UI
-  interactions and customize browser settings, including window size.
-- Test Lifecycle Management: Utilize Before and After annotations/hooks for setup and cleanup. Enable
-  screenshot capabilities.
-- Negative and Field Validation Testing: Design negative test scenarios to check system responses to
-  omitted inputs and validate correct data entry in specific fields.
-- Cross-Browser Compatibility and Test Suites: Ensure tests are compatible with at least Chrome and
-  Firefox browsers. Organize test suites for both positive and negative testing scenarios. Create test scripts
-  that allow tests to be run on a different browser and test suite.
+### ✅ Framework and Configuration Setup: Implement the Page Object Model, and manage test settings via a configuration file for base URLs, wait timeouts, browser drivers, and instances.
+
+#### 📝 Comments
+
+- Page Objects can be found in `/ui` directory.
+- Configuration is in `playwright.config.ts`.
+
+### ✅ Custom Functionality and Browser Configuration: Develop custom functions for assertions and UI interactions and customize browser settings, including window size.
+
+#### 📝 Comments
+
+- UI interactions are a part of Page Objects. You can find it in `/ui` directory.
+- Browser settings can be checked and changed in `playwright.config.ts` file.
+
+### ✅ Test Lifecycle Management: Utilize Before and After annotations/hooks for setup and cleanup. Enable screenshot capabilities.
+
+#### 📝 Comments
+
+- I used `beforeEach` hook to set test state.
+- I didn't use `afterEach` hook as there was no need to clean any test data. Playwright Fixtures are responsible for stuff like closing a browser.
+
+### - Negative and Field Validation Testing: Design negative test scenarios to check system responses to omitted inputs and validate correct data entry in specific fields.
+
+### ✅ Cross-Browser Compatibility and Test Suites: Ensure tests are compatible with at least Chrome and Firefox browsers. Organize test suites for both positive and negative testing scenarios. Create test scripts that allow tests to be run on a different browser and test suite.
+
+#### 📝 Comments
+
+- Check `Run` section of `README.md` to see how to use test scripts
 
 ## Final tasks:
 
