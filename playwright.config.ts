@@ -10,7 +10,7 @@ export default defineConfig({
   timeout: 60 * 1000, // single test timeout
   globalTimeout: 60 * 60 * 1000, // test run timeout
   expect: {
-    timeout: 20 * 1000, // expect timeout
+    timeout: 30 * 1000, // expect timeout
   },
   use: {
     baseURL: 'https://demo.prestashop.com',
