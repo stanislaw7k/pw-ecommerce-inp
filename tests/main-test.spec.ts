@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import HomePage from '../ui/home.page';
 import NavbarSection from '../ui/navbar.section';
 import SearchResultsPage from '../ui/search-results.page';
@@ -6,6 +6,7 @@ import ProductDetailsPage from '../ui/product-details.page';
 import AddedToCartModal from '../ui/added-to-cart.modal';
 import CartPage from '../ui/cart.page';
 import CheckoutPage from '../ui/checkout.page';
+import OrderConfirmationPage from '../ui/order-confirmation.page';
 
 const testData = {
   product: {
@@ -40,6 +41,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const addedToCartModal = new AddedToCartModal(page);
   const cartPage = new CartPage(page);
   const checkoutPage = new CheckoutPage(page);
+  const orderConfirmationPage = new OrderConfirmationPage(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -122,28 +124,12 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Ensure the order confirmation page loads successfully and displays the correct order details', async () => {
-    await expect(
-      iFrame.locator('h3', { hasText: 'Your order is confirmed' })
-    ).toBeVisible();
+    await orderConfirmationPage.assertIsVisible();
 
-    await expect(
-      iFrame.locator('#content-hook_order_confirmation')
-    ).toContainText(testData.personalInfo.email);
-
-    await expect(iFrame.locator('#order-items')).toContainText(
-      testData.product.name
-    );
-
-    await expect(iFrame.locator('tr.total-value')).toContainText(
-      testData.product.price
-    );
-
-    await expect(iFrame.locator('#order-details')).toContainText(
-      'Payment method: Cash on delivery (COD)'
-    );
-
-    await expect(iFrame.locator('#order-details')).toContainText(
-      'Shipping method: Click and collect'
-    );
+    await orderConfirmationPage.assertEmailAddress(testData.personalInfo.email);
+    await orderConfirmationPage.assertProductName(testData.product.name);
+    await orderConfirmationPage.assertProductPrice(testData.product.price);
+    await orderConfirmationPage.assertShippingMethod(testData.shippingMethod);
+    await orderConfirmationPage.assertPaymentMethod('Cash on delivery (COD)');
   });
 });
