@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import HomePage from '../ui/home.page';
 import NavbarSection from '../ui/navbar.section';
+import SearchResultsPage from '../ui/search-results.page';
 
 const testData = {
   product: {
@@ -24,6 +25,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
 
   const homePage = new HomePage(page);
   const navbar = new NavbarSection(page);
+  const searchResultsPage = new SearchResultsPage(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -35,16 +37,13 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Validate that the search results display the correct product.', async () => {
-    await expect(iFrame.locator('#js-product-list-header')).toHaveText(
-      'Search results'
-    );
-    await expect(iFrame.locator('#js-product-list h2')).toHaveText(
-      testData.product.name
-    );
+    await searchResultsPage.assertPageLoaded();
+    await searchResultsPage.assertProductIsVisible(testData.product.name);
   });
 
   await test.step('Add the product to the shopping cart.', async () => {
-    await iFrame.locator('#js-product-list h2').click();
+    await searchResultsPage.clickOnProduct(testData.product.name);
+
     await iFrame.getByRole('button', { name: 'Add to cart' }).click();
     await expect(
       iFrame.locator('#myModalLabel', {
