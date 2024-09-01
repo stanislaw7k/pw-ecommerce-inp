@@ -1,5 +1,11 @@
 # Introduction
 
+Hi! Here's my solution to the ecommerce task. Below you'll find info on:
+
+- How to setup this repo.
+- How to run tests.
+- Task description with my comments.
+
 # Setup
 
 ### Install Node.js
