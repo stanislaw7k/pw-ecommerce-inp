@@ -4,6 +4,7 @@ import NavbarSection from '../ui/navbar.section';
 import SearchResultsPage from '../ui/search-results.page';
 import ProductDetailsPage from '../ui/product-details.page';
 import AddedToCartModal from '../ui/added-to-cart.modal';
+import CartPage from '../ui/cart.page';
 
 const testData = {
   product: {
@@ -30,6 +31,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const searchResultsPage = new SearchResultsPage(page);
   const productDetailsPage = new ProductDetailsPage(page);
   const addedToCartModal = new AddedToCartModal(page);
+  const cartPage = new CartPage(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -55,17 +57,15 @@ test('User can search for a product and purchase it', async ({ page }) => {
     await addedToCartModal.assertIsVisible();
     await addedToCartModal.clickProceedButton();
 
-    await expect(iFrame.locator('h1')).toHaveText('Shopping Cart');
-    await expect(
-      iFrame.locator('li.cart-item div.product-line-info a')
-    ).toHaveText(testData.product.name);
-    await expect(iFrame.locator('span.product-price')).toHaveText(
+    await cartPage.assertIsVisible();
+    await cartPage.assertProductDetails(
+      testData.product.name,
       testData.product.price
     );
   });
 
   await test.step('Proceed to the checkout page.', async () => {
-    await iFrame.getByRole('link', { name: 'Proceed to checkout' }).click();
+    await cartPage.clickProceedButton();
   });
 
   await test.step('Fill in all required information fields.', async () => {
