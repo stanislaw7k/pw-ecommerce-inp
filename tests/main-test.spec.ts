@@ -3,6 +3,7 @@ import HomePage from '../ui/home.page';
 import NavbarSection from '../ui/navbar.section';
 import SearchResultsPage from '../ui/search-results.page';
 import ProductDetailsPage from '../ui/product-details.page';
+import AddedToCartModal from '../ui/added-to-cart.modal';
 
 const testData = {
   product: {
@@ -28,6 +29,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const navbar = new NavbarSection(page);
   const searchResultsPage = new SearchResultsPage(page);
   const productDetailsPage = new ProductDetailsPage(page);
+  const addedToCartModal = new AddedToCartModal(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -50,12 +52,9 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Confirm that the cart correctly displays the added product.', async () => {
-    await expect(
-      iFrame.locator('#myModalLabel', {
-        hasText: 'Product successfully added to your shopping cart',
-      })
-    ).toBeVisible();
-    await iFrame.getByRole('link', { name: 'Proceed to checkout' }).click();
+    await addedToCartModal.assertIsVisible();
+    await addedToCartModal.clickProceedButton();
+
     await expect(iFrame.locator('h1')).toHaveText('Shopping Cart');
     await expect(
       iFrame.locator('li.cart-item div.product-line-info a')
