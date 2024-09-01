@@ -2,20 +2,21 @@ import { test, expect } from '@playwright/test';
 import HomePage from '../ui/home.page';
 import NavbarSection from '../ui/navbar.section';
 
-const product = {
-  name: 'Hummingbird printed sweater',
-  price: '€34.46',
-};
-
-const personalInfo = {
-  firstName: 'Mike',
-  lastName: 'Wazowsky',
-  email: 'm.wazowsky@test.com',
-  address1: 'Long Street 14',
-  postalCode: '00000',
-  city: 'New City',
-  country: 'France',
-  state: 'Alaska',
+const testData = {
+  product: {
+    name: 'Hummingbird printed sweater',
+    price: '€34.46',
+  },
+  personalInfo: {
+    firstName: 'Mike',
+    lastName: 'Wazowsky',
+    email: 'm.wazowsky@test.com',
+    address1: 'Long Street 14',
+    postalCode: '00000',
+    city: 'New City',
+    country: 'France',
+    state: 'Alaska',
+  },
 };
 
 test('User can search for a product and purchase it', async ({ page }) => {
@@ -30,7 +31,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Enter the product name into the search field and Execute the search operation.', async () => {
-    await navbar.searchFor(product.name);
+    await navbar.searchFor(testData.product.name);
   });
 
   await test.step('Validate that the search results display the correct product.', async () => {
@@ -38,7 +39,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
       'Search results'
     );
     await expect(iFrame.locator('#js-product-list h2')).toHaveText(
-      product.name
+      testData.product.name
     );
   });
 
@@ -57,9 +58,9 @@ test('User can search for a product and purchase it', async ({ page }) => {
     await expect(iFrame.locator('h1')).toHaveText('Shopping Cart');
     await expect(
       iFrame.locator('li.cart-item div.product-line-info a')
-    ).toHaveText(product.name);
+    ).toHaveText(testData.product.name);
     await expect(iFrame.locator('span.product-price')).toHaveText(
-      product.price
+      testData.product.price
     );
   });
 
@@ -68,24 +69,34 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Fill in all required information fields.', async () => {
-    await iFrame.locator('#field-firstname').fill(personalInfo.firstName);
-    await iFrame.locator('#field-lastname').fill(personalInfo.lastName);
+    await iFrame
+      .locator('#field-firstname')
+      .fill(testData.personalInfo.firstName);
+    await iFrame
+      .locator('#field-lastname')
+      .fill(testData.personalInfo.lastName);
     await iFrame
       .locator('#checkout-guest-form #field-email')
-      .fill(personalInfo.email);
+      .fill(testData.personalInfo.email);
     await iFrame
       .getByLabel('I agree to the terms and conditions and the privacy policy')
       .check();
     await iFrame.getByLabel('Customer data privacy').check();
     await iFrame.getByRole('button', { name: 'Continue' }).click();
 
-    await iFrame.locator('#field-address1').fill(personalInfo.address1);
-    await iFrame.locator('#field-postcode').fill(personalInfo.postalCode);
-    await iFrame.locator('#field-city').fill(personalInfo.city);
+    await iFrame
+      .locator('#field-address1')
+      .fill(testData.personalInfo.address1);
+    await iFrame
+      .locator('#field-postcode')
+      .fill(testData.personalInfo.postalCode);
+    await iFrame.locator('#field-city').fill(testData.personalInfo.city);
     await iFrame
       .locator('#field-id_country')
-      .selectOption(personalInfo.country);
-    await iFrame.locator('#field-id_state').selectOption(personalInfo.state);
+      .selectOption(testData.personalInfo.country);
+    await iFrame
+      .locator('#field-id_state')
+      .selectOption(testData.personalInfo.state);
 
     await iFrame.getByRole('button', { name: 'Continue' }).click();
 
@@ -121,11 +132,15 @@ test('User can search for a product and purchase it', async ({ page }) => {
 
     await expect(
       iFrame.locator('#content-hook_order_confirmation')
-    ).toContainText(personalInfo.email);
+    ).toContainText(testData.personalInfo.email);
 
-    await expect(iFrame.locator('#order-items')).toContainText(product.name);
+    await expect(iFrame.locator('#order-items')).toContainText(
+      testData.product.name
+    );
 
-    await expect(iFrame.locator('tr.total-value')).toContainText(product.price);
+    await expect(iFrame.locator('tr.total-value')).toContainText(
+      testData.product.price
+    );
 
     await expect(iFrame.locator('#order-details')).toContainText(
       'Payment method: Cash on delivery (COD)'
