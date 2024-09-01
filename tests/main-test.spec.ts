@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import HomePage from '../ui/home.page';
+import NavbarSection from '../ui/navbar.section';
 
 const product = {
   name: 'Hummingbird printed sweater',
@@ -21,6 +22,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   const iFrame = page.frameLocator('#framelive');
 
   const homePage = new HomePage(page);
+  const navbar = new NavbarSection(page);
 
   await test.step('Launch the preferred browser and Navigate to the specified website URL.', async () => {
     await homePage.goto();
@@ -28,8 +30,7 @@ test('User can search for a product and purchase it', async ({ page }) => {
   });
 
   await test.step('Enter the product name into the search field and Execute the search operation.', async () => {
-    await iFrame.getByPlaceholder('Search our catalog').fill(product.name);
-    await iFrame.getByPlaceholder('Search our catalog').press('Enter');
+    await navbar.searchFor(product.name);
   });
 
   await test.step('Validate that the search results display the correct product.', async () => {
