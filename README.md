@@ -122,6 +122,11 @@ Task list (choose how many you want - write in the README why you have chosen sp
 
 ### - Negative and Field Validation Testing: Design negative test scenarios to check system responses to omitted inputs and validate correct data entry in specific fields.
 
+#### 📝 Comments
+
+- This task isn't done.
+- I wanted to write a tests for checkout form validation, but I didn't have enough time to do it.
+
 ### ✅ Cross-Browser Compatibility and Test Suites: Ensure tests are compatible with at least Chrome and Firefox browsers. Organize test suites for both positive and negative testing scenarios. Create test scripts that allow tests to be run on a different browser and test suite.
 
 #### 📝 Comments
@@ -130,8 +135,8 @@ Task list (choose how many you want - write in the README why you have chosen sp
 
 ## Final tasks:
 
-- Create a README file and write instructions for launching your tests
-- Share the automation project link through source code repositories like GitHub (keep commit history)
+- ✅ Create a README file and write instructions for launching your tests.
+- ✅ Share the automation project link through source code repositories like GitHub (keep commit history).
 
 # Additional comments
 
